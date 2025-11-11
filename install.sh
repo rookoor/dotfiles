@@ -183,6 +183,13 @@ else
     print_success "TPM already installed"
 fi
 
+# Configure macOS defaults
+print_info "Configuring macOS preferences..."
+
+# Enable natural scrolling (content tracks finger movement)
+defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
+print_success "Natural scrolling enabled"
+
 # Source bash profile
 print_info "Sourcing bash profile..."
 if [ -f "$HOME/.bash_profile" ]; then

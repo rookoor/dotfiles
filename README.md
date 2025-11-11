@@ -31,7 +31,8 @@ That's it! The script will:
 2. Install all packages from Brewfile
 3. Symlink all configuration files
 4. Set up Tmux Plugin Manager
-5. Back up any existing configs
+5. Configure macOS preferences (natural scrolling)
+6. Back up any existing configs
 
 ## What Gets Installed
 
@@ -100,6 +101,17 @@ That's it! The script will:
 ### Git
 - `.gitconfig`: Git configuration with useful aliases
 - `.gitignore_global`: Global gitignore patterns
+
+### Karabiner-Elements
+- `karabiner.json`: Keyboard remapping (Caps Lock ↔ Escape)
+
+## macOS Preferences
+
+The install script automatically configures these macOS system preferences:
+
+- **Natural Scrolling**: Enabled (content tracks finger movement on trackpad/mouse)
+
+These settings can be manually changed in System Settings if desired.
 
 ## Manual Setup Steps
 
