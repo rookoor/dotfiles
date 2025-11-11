@@ -122,7 +122,11 @@ brew services start skhd
 Note: yabai requires System Integrity Protection (SIP) to be partially disabled for some features. See [yabai wiki](https://github.com/koekeishiya/yabai/wiki) for details.
 
 ### 4. Configure BetterTouchTool
-BetterTouchTool is a GUI application that needs to be configured manually. Launch it from Applications and set up your preferences.
+BetterTouchTool provides system-wide vim-like navigation. See [BETTERTOUCHTOOL_SETUP.md](BETTERTOUCHTOOL_SETUP.md) for detailed setup instructions.
+
+**Quick setup:**
+- Cmd+H/J/K/L → Arrow keys
+- Ctrl+Cmd+H/J/K/L → Word navigation
 
 ### 5. Install Tmux Plugins
 ```bash
@@ -142,7 +146,21 @@ nvm use --lts
 nvm alias default node
 ```
 
+### 7. Install Browser Extensions (Optional)
+For vim-like browser navigation, install Vimium:
+- **Chrome/Edge**: [Vimium](https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb)
+- **Firefox**: [Vimium-FF](https://addons.mozilla.org/en-US/firefox/addon/vimium-ff/)
+- **Safari**: [Vimari](https://apps.apple.com/us/app/vimari/id1480933944)
+
 ## Keyboard Shortcuts
+
+### Navigation Philosophy
+This setup provides **vim-like navigation everywhere**:
+- **System-wide** (via BetterTouchTool): Cmd+HJKL works in any app
+- **Window management** (via yabai): Alt+HJKL for GNOME-style snapping
+- **Terminal** (via tmux): Ctrl+A + HJKL for pane navigation
+- **Browser** (via Vimium): J/K for scrolling, H/L for back/forward
+- **Editor** (native vim): HJKL for navigation
 
 ### Tmux (Prefix: Ctrl+a)
 - `Ctrl+a |`: Split pane vertically
@@ -151,13 +169,37 @@ nvm alias default node
 - `Ctrl+a H/J/K/L`: Resize panes
 - `Ctrl+a r`: Reload config
 
-### Yabai/Skhd (Window Management)
-- `Alt+h/j/k/l`: Focus window in direction
-- `Shift+Alt+h/j/k/l`: Swap window in direction
-- `Alt+f`: Toggle fullscreen
-- `Alt+t`: Toggle float
-- `Alt+r`: Rotate tree
-- `Shift+Alt+b`: Balance windows
+### System-Wide Navigation (BetterTouchTool)
+- `Cmd+H/J/K/L`: Arrow keys (←/↓/↑/→)
+- `Ctrl+Cmd+H/L`: Word navigation (jump by word)
+- `Ctrl+Cmd+J/K`: Paragraph navigation
+
+### Window Management (Yabai/Skhd)
+**GNOME-Style Snapping:**
+- `Alt+H`: Snap window to left half
+- `Alt+L`: Snap window to right half
+- `Alt+K`: Maximize window
+- `Alt+J`: Center window (80% size)
+- `Alt+U/I/O/P`: Snap to quarters (top-left/top-right/bottom-right/bottom-left)
+- `Alt+Arrow keys`: Alternative arrow key snapping
+
+**Window Focus:**
+- `Ctrl+Alt+H/J/K/L`: Focus window in direction
+- `Ctrl+Alt+N/P`: Focus next/previous window
+
+**Window Manipulation:**
+- `Alt+F`: Toggle fullscreen
+- `Alt+T`: Toggle float
+- `Alt+R/Y/X`: Rotate/mirror windows
+- `Shift+Alt+B`: Balance windows
+- `Shift+Ctrl+Alt+H/J/K/L`: Swap windows
+
+**Layout Switching:**
+- `Ctrl+Alt+A`: BSP layout (auto-tiling)
+- `Ctrl+Alt+D`: Float layout (GNOME-like)
+- `Ctrl+Alt+S`: Stack layout
+
+**Applications:**
 - `Cmd+Return`: Open Alacritty
 
 ### Neovim (Leader: Space)

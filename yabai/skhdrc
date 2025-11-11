@@ -3,33 +3,87 @@
 # ============================================
 # Simple hotkey daemon for macOS
 # https://github.com/koekeishiya/skhd
+#
+# NAVIGATION SCHEME:
+# - Cmd+H/J/K/L → Arrow keys (handled by BetterTouchTool)
+# - Ctrl+Cmd+H/J/K/L → Word navigation (handled by BetterTouchTool)
+# - Alt+H/J/K/L → GNOME-style window snapping (handled here)
 
 # ============================================
-# FOCUS WINDOWS
+# GNOME-STYLE WINDOW SNAPPING (Alt + H/J/K/L)
+# ============================================
+
+# Alt+H: Snap to left half
+alt - h : yabai -m window --grid 1:2:0:0:1:1
+
+# Alt+L: Snap to right half
+alt - l : yabai -m window --grid 1:2:1:0:1:1
+
+# Alt+K: Maximize window (like GNOME Super+Up)
+alt - k : yabai -m window --toggle zoom-fullscreen
+
+# Alt+J: Center window at 80% size (useful for focusing)
+alt - j : yabai -m window --grid 10:10:1:1:8:8
+
+# ============================================
+# QUARTER SCREEN SNAPPING (Alt + U/I/O/P)
+# ============================================
+
+# Alt+U: Top-left quarter
+alt - u : yabai -m window --grid 2:2:0:0:1:1
+
+# Alt+I: Top-right quarter
+alt - i : yabai -m window --grid 2:2:1:0:1:1
+
+# Alt+O: Bottom-right quarter
+alt - o : yabai -m window --grid 2:2:1:1:1:1
+
+# Alt+P: Bottom-left quarter
+alt - p : yabai -m window --grid 2:2:0:1:1:1
+
+# ============================================
+# ADDITIONAL SNAPPING (Alt + Arrow Keys)
+# ============================================
+# For users who prefer arrow keys over HJKL
+
+# Alt+Left: Snap left half
+alt - left : yabai -m window --grid 1:2:0:0:1:1
+
+# Alt+Right: Snap right half
+alt - right : yabai -m window --grid 1:2:1:0:1:1
+
+# Alt+Up: Maximize
+alt - up : yabai -m window --toggle zoom-fullscreen
+
+# Alt+Down: Center window
+alt - down : yabai -m window --grid 10:10:1:1:8:8
+
+# ============================================
+# WINDOW FOCUS (Ctrl+Alt + H/J/K/L)
 # ============================================
 
 # Focus window in direction
-alt - h : yabai -m window --focus west
-alt - j : yabai -m window --focus south
-alt - k : yabai -m window --focus north
-alt - l : yabai -m window --focus east
+ctrl + alt - h : yabai -m window --focus west
+ctrl + alt - j : yabai -m window --focus south
+ctrl + alt - k : yabai -m window --focus north
+ctrl + alt - l : yabai -m window --focus east
 
 # Focus next/previous window
-alt - n : yabai -m window --focus next
-alt - p : yabai -m window --focus prev
+ctrl + alt - n : yabai -m window --focus next
+ctrl + alt - p : yabai -m window --focus prev
 
 # ============================================
-# SWAP WINDOWS
+# SWAP WINDOWS (Shift+Ctrl+Alt + H/J/K/L)
 # ============================================
 
 # Swap window in direction
-shift + alt - h : yabai -m window --swap west
-shift + alt - j : yabai -m window --swap south
-shift + alt - k : yabai -m window --swap north
-shift + alt - l : yabai -m window --swap east
+shift + ctrl + alt - h : yabai -m window --swap west
+shift + ctrl + alt - j : yabai -m window --swap south
+shift + ctrl + alt - k : yabai -m window --swap north
+shift + ctrl + alt - l : yabai -m window --swap east
 
 # ============================================
-# MOVE WINDOWS
+# MOVE WINDOWS BETWEEN SPACES (Shift+Alt + 1/2/3/4/5)
 # ============================================
 
 # Move window to space
@@ -39,12 +93,8 @@ shift + alt - 3 : yabai -m window --space 3
 shift + alt - 4 : yabai -m window --space 4
 shift + alt - 5 : yabai -m window --space 5
 
-# Move window to prev/next space
-shift + alt - p : yabai -m window --space prev
-shift + alt - n : yabai -m window --space next
-
 # ============================================
-# RESIZE WINDOWS
+# RESIZE WINDOWS (Shift+Cmd + H/J/K/L)
 # ============================================
 
 # Increase window size
@@ -60,7 +110,7 @@ shift + cmd + alt - k : yabai -m window --resize top:0:20
 shift + cmd + alt - l : yabai -m window --resize right:-20:0
 
 # ============================================
-# ROTATE & FLIP
+# ROTATE & FLIP (Alt + R/Y/X)
 # ============================================
 
 # Rotate tree
@@ -73,23 +123,23 @@ alt - y : yabai -m space --mirror y-axis
 alt - x : yabai -m space --mirror x-axis
 
 # ============================================
-# TOGGLE WINDOW SETTINGS
+# TOGGLE WINDOW SETTINGS (Alt + F/T/E)
 # ============================================
-
-# Toggle window float
-alt - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
 
 # Toggle window fullscreen
 alt - f : yabai -m window --toggle zoom-fullscreen
 
-# Toggle window native fullscreen
-shift + alt - f : yabai -m window --toggle native-fullscreen
+# Toggle window float
+alt - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
 
 # Toggle window split type
 alt - e : yabai -m window --toggle split
 
+# Toggle window native fullscreen
+shift + alt - f : yabai -m window --toggle native-fullscreen
+
 # ============================================
-# BALANCE & EQUALIZE
+# BALANCE & EQUALIZE (Shift+Alt + B/E)
 # ============================================
 
 # Balance space
@@ -99,26 +149,27 @@ shift + alt - b : yabai -m space --balance
 shift + alt - e : yabai -m space --equalize
 
 # ============================================
-# LAYOUT
+# LAYOUT SWITCHING (Ctrl+Alt + A/S/D)
 # ============================================
 
-# Change layout of desktop
+# Ctrl+Alt+A: BSP layout (binary space partitioning - auto-tiling)
 ctrl + alt - a : yabai -m space --layout bsp
+
+# Ctrl+Alt+S: Stack layout (all windows stacked)
 ctrl + alt - s : yabai -m space --layout stack
+
+# Ctrl+Alt+D: Float layout (GNOME-like manual positioning)
 ctrl + alt - d : yabai -m space --layout float
 
 # ============================================
 # APPLICATIONS
 # ============================================
 
-# Open terminal (Alacritty)
+# Cmd+Return: Open terminal (Alacritty)
 cmd - return : open -na Alacritty
 
-# Open terminal (iTerm2 - if you prefer)
-# cmd - return : open -na iTerm
-
 # ============================================
-# RESTART YABAI
+# YABAI MANAGEMENT
 # ============================================
 
 # Restart yabai
@@ -129,14 +180,3 @@ shift + cmd + alt - q : brew services stop yabai
 
 # Start yabai
 shift + cmd + alt - s : brew services start yabai
-
-# ============================================
-# FOCUS SPACES
-# ============================================
-
-# Focus space by number (Note: This may require additional permissions)
-# alt - 1 : yabai -m space --focus 1
-# alt - 2 : yabai -m space --focus 2
-# alt - 3 : yabai -m space --focus 3
-# alt - 4 : yabai -m space --focus 4
-# alt - 5 : yabai -m space --focus 5

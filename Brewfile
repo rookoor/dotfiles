@@ -50,3 +50,8 @@ cask "font-fira-code-nerd-font"       # Alternative nerdfont
 # cask "visual-studio-code"
 # cask "docker"
 # cask "iterm2"
+
+# Browser Extensions (Install manually)
+# - Vimium (Chrome/Edge): https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb
+# - Vimium (Firefox): https://addons.mozilla.org/en-US/firefox/addon/vimium-ff/
+# - Vimium (Safari): https://apps.apple.com/us/app/vimari/id1480933944
