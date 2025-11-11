@@ -108,9 +108,10 @@ That's it! The script will:
 
 The install script automatically configures these macOS system preferences:
 
-- **Natural Scrolling**: Enabled (content tracks finger movement on trackpad/mouse)
-
-These settings can be manually changed in System Settings if desired.
+- **Natural Scrolling**: Enabled via Scroll Reverser
+  - **Trackpad**: Natural scrolling (content tracks finger movement)
+  - **Mouse**: Traditional scrolling (wheel down = scroll down)
+  - Scroll Reverser runs in the background and auto-starts on login
 
 ## Manual Setup Steps
 

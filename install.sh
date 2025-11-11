@@ -186,9 +186,21 @@ fi
 # Configure macOS defaults
 print_info "Configuring macOS preferences..."
 
-# Enable natural scrolling (content tracks finger movement)
-defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
-print_success "Natural scrolling enabled"
+# Configure Scroll Reverser (separate scrolling for trackpad vs mouse)
+if [ -d "/Applications/Scroll Reverser.app" ]; then
+    defaults write com.pilotmoon.scroll-reverser ReverseScrolling -bool true
+    defaults write com.pilotmoon.scroll-reverser ReverseTrackpad -bool true
+    defaults write com.pilotmoon.scroll-reverser ReverseMouse -bool false
+    defaults write com.pilotmoon.scroll-reverser ReverseTablet -bool true
+
+    # Start Scroll Reverser
+    open -a "Scroll Reverser" 2>/dev/null
+    print_success "Scroll Reverser configured (trackpad: natural, mouse: traditional)"
+else
+    # Fallback: Enable natural scrolling globally
+    defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
+    print_success "Natural scrolling enabled"
+fi
 
 # Source bash profile
 print_info "Sourcing bash profile..."
