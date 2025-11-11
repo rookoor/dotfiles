@@ -4,7 +4,9 @@ Portable development environment setup for macOS with BetterTouchTool, yabai, al
 
 ## Features
 
-- **Window Management**: yabai + skhd for tiling window management
+- **Vim-Like Navigation**: System-wide Cmd+HJKL via BetterTouchTool
+- **Keyboard Customization**: Caps Lock ↔ Escape swap via Karabiner-Elements
+- **Window Management**: GNOME-style snapping with yabai + skhd
 - **Terminal**: Alacritty with customized configuration
 - **Terminal Multiplexer**: tmux with useful plugins
 - **Shell**: Bash with custom configuration and aliases
@@ -47,10 +49,11 @@ That's it! The script will:
 - **tmux**: Terminal multiplexer
 - **bash**: Unix shell with custom configuration
 
-### Window Management
+### Window Management & Input
 - **yabai**: Tiling window manager for macOS
 - **skhd**: Simple hotkey daemon
-- **BetterTouchTool**: Advanced input customization (requires manual setup)
+- **BetterTouchTool**: System-wide vim navigation (requires manual setup)
+- **Karabiner-Elements**: Keyboard customization (Caps Lock ↔ Escape)
 
 ### Git Tools
 - **gh**: GitHub CLI
@@ -128,7 +131,18 @@ BetterTouchTool provides system-wide vim-like navigation. See [BETTERTOUCHTOOL_S
 - Cmd+H/J/K/L → Arrow keys
 - Ctrl+Cmd+H/J/K/L → Word navigation
 
-### 5. Install Tmux Plugins
+### 5. Grant Karabiner-Elements Permissions
+Karabiner-Elements swaps Caps Lock and Escape (essential for vim users!).
+
+1. Open Karabiner-Elements from Applications
+2. Grant Input Monitoring permission when prompted
+3. Go to System Settings → Privacy & Security → Input Monitoring
+4. Enable Karabiner-Elements
+5. The Caps Lock ↔ Escape swap is already configured!
+
+**Test it:** Press Caps Lock - it should act as Escape now.
+
+### 6. Install Tmux Plugins
 ```bash
 # Open tmux
 tmux
@@ -136,7 +150,7 @@ tmux
 # Press prefix + I (Ctrl+a then Shift+i) to install plugins
 ```
 
-### 6. Setup Node Version Manager
+### 7. Setup Node Version Manager
 ```bash
 # Install the latest LTS version of Node
 nvm install --lts
@@ -146,7 +160,7 @@ nvm use --lts
 nvm alias default node
 ```
 
-### 7. Install Browser Extensions (Optional)
+### 8. Install Browser Extensions (Optional)
 For vim-like browser navigation, install Vimium:
 - **Chrome/Edge**: [Vimium](https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb)
 - **Firefox**: [Vimium-FF](https://addons.mozilla.org/en-US/firefox/addon/vimium-ff/)

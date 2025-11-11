@@ -43,6 +43,7 @@ brew "fzf"             # Fuzzy finder
 
 # Casks (GUI Applications)
 cask "bettertouchtool"
+cask "karabiner-elements"             # Keyboard customization (Caps Lock ↔ Escape)
 cask "font-jetbrains-mono-nerd-font"  # Good terminal font with icons
 cask "font-fira-code-nerd-font"       # Alternative nerdfont
 

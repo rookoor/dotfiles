@@ -2,6 +2,12 @@
 
 ## Vim-Like Universal Navigation + GNOME Window Management
 
+### ⌨️ Keyboard Remapping
+```
+Caps Lock              → Escape ⭐
+Escape                 → Caps Lock
+```
+
 ### 🎯 Core Navigation (System-Wide)
 ```
 Cmd + H/J/K/L          → Arrow keys (←/↓/↑/→)
@@ -68,6 +74,7 @@ Shift + Cmd + Alt + R  → Restart yabai
 - [ ] Start yabai: `brew services start yabai`
 - [ ] Start skhd: `brew services start skhd`
 - [ ] Configure BetterTouchTool (see BETTERTOUCHTOOL_SETUP.md)
+- [ ] Open Karabiner-Elements and grant permissions (Caps ↔ Esc)
 - [ ] Install Vimium browser extension
 - [ ] Open tmux and press `Ctrl+A I` for plugins
 
@@ -75,6 +82,7 @@ Shift + Cmd + Alt + R  → Restart yabai
 
 ## Tips
 
+💡 **Caps Lock is now Escape** - perfect for vim! Press where Caps Lock was.
 💡 **Default layout is Float** - like GNOME, windows snap manually
 💡 **Switch to BSP** with Ctrl+Alt+A for automatic tiling
 💡 **Alt+K twice** maximizes then restores window

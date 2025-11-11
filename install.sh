@@ -150,6 +150,12 @@ if [ -f "$DOTFILES_DIR/git/.gitignore_global" ]; then
     symlink_file "$DOTFILES_DIR/git/.gitignore_global" "$HOME/.gitignore_global"
 fi
 
+# Karabiner-Elements
+if [ -f "$DOTFILES_DIR/karabiner/karabiner.json" ]; then
+    mkdir -p "$HOME/.config/karabiner"
+    symlink_file "$DOTFILES_DIR/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
+fi
+
 print_success "All symlinks created"
 
 # Set bash as default shell if not already
