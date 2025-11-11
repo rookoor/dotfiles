@@ -108,10 +108,11 @@ That's it! The script will:
 
 The install script automatically configures these macOS system preferences:
 
-- **Natural Scrolling**: Enabled for trackpad by default
-  - **Trackpad**: Set to natural scrolling in System Settings → Trackpad → Scroll & Zoom
-  - **Mouse**: Configure separately in System Settings → Mouse (uncheck "Natural scrolling" for traditional)
-  - macOS natively supports different scrolling directions for trackpad vs mouse
+- **Natural Scrolling**: Fully automated via command line!
+  - **Trackpad**: Natural scrolling (content tracks finger movement)
+  - **Mouse**: Traditional scrolling (wheel down = scroll down)
+  - Settings written to macOS preference files for all mouse types
+  - May require unplugging/replugging mouse to take effect
 
 ## Manual Setup Steps
 

@@ -186,10 +186,16 @@ fi
 # Configure macOS defaults
 print_info "Configuring macOS preferences..."
 
-# Enable natural scrolling for trackpad (mouse can be set separately in System Settings)
+# Enable natural scrolling globally (for trackpad)
 defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
-print_success "Natural scrolling enabled for trackpad"
-print_info "Note: Mouse scrolling can be configured separately in System Settings → Mouse"
+
+# Disable natural scrolling for mice (traditional wheel scrolling)
+defaults write com.apple.driver.AppleHIDMouse com.apple.mouse.natural-scroll -bool false 2>/dev/null
+defaults write com.apple.driver.AppleBluetoothMultitouch.mouse com.apple.mouse.natural-scroll -bool false 2>/dev/null
+defaults write com.apple.AppleMultitouchMouse com.apple.mouse.natural-scroll -bool false 2>/dev/null
+
+print_success "Scrolling configured: Trackpad (natural), Mouse (traditional)"
+print_info "Note: Unplug/replug mouse if needed to apply settings"
 
 # Source bash profile
 print_info "Sourcing bash profile..."
