@@ -1,10 +1,10 @@
 # Dotfiles
 
-Portable development environment setup for macOS with BetterTouchTool, yabai, alacritty, tmux, and more.
+Portable development environment setup for macOS with Karabiner-Elements, yabai, alacritty, tmux, and more.
 
 ## Features
 
-- **Vim-Like Navigation**: System-wide Cmd+HJKL via BetterTouchTool
+- **Vim-Like Navigation**: System-wide Cmd+HJKL via Karabiner-Elements (fully automated!)
 - **Keyboard Customization**: Caps Lock ↔ Escape swap via Karabiner-Elements
 - **Window Management**: GNOME-style snapping with yabai + skhd
 - **Terminal**: Alacritty with customized configuration
@@ -53,8 +53,7 @@ That's it! The script will:
 ### Window Management & Input
 - **yabai**: Tiling window manager for macOS
 - **skhd**: Simple hotkey daemon
-- **BetterTouchTool**: System-wide vim navigation (requires manual setup)
-- **Karabiner-Elements**: Keyboard customization (Caps Lock ↔ Escape)
+- **Karabiner-Elements**: Keyboard customization (Caps ↔ Esc, Cmd+HJKL navigation)
 
 ### Git Tools
 - **gh**: GitHub CLI
@@ -136,25 +135,23 @@ brew services start skhd
 
 Note: yabai requires System Integrity Protection (SIP) to be partially disabled for some features. See [yabai wiki](https://github.com/koekeishiya/yabai/wiki) for details.
 
-### 4. Configure BetterTouchTool
-BetterTouchTool provides system-wide vim-like navigation. See [BETTERTOUCHTOOL_SETUP.md](BETTERTOUCHTOOL_SETUP.md) for detailed setup instructions.
-
-**Quick setup:**
-- Cmd+H/J/K/L → Arrow keys
-- Ctrl+Cmd+H/J/K/L → Word navigation
-
-### 5. Grant Karabiner-Elements Permissions
-Karabiner-Elements swaps Caps Lock and Escape (essential for vim users!).
+### 4. Grant Karabiner-Elements Permissions
+Karabiner-Elements provides keyboard customization (fully automated!):
 
 1. Open Karabiner-Elements from Applications
 2. Grant Input Monitoring permission when prompted
 3. Go to System Settings → Privacy & Security → Input Monitoring
 4. Enable Karabiner-Elements
-5. The Caps Lock ↔ Escape swap is already configured!
+5. All keyboard customizations are pre-configured:
+   - **Caps Lock** → Escape
+   - **Cmd+H/J/K/L** → Arrow keys (←/↓/↑/→)
+   - **Ctrl+Cmd+H/L** → Word navigation (Option+←/→)
 
-**Test it:** Press Caps Lock - it should act as Escape now.
+**Test it:**
+- Press **Caps Lock** - it should act as Escape
+- Press **Cmd+H/J/K/L** - should work as arrow keys!
 
-### 6. Install Tmux Plugins
+### 5. Install Tmux Plugins
 ```bash
 # Open tmux
 tmux
@@ -162,7 +159,7 @@ tmux
 # Press prefix + I (Ctrl+a then Shift+i) to install plugins
 ```
 
-### 7. Setup Node Version Manager
+### 6. Setup Node Version Manager
 ```bash
 # Install the latest LTS version of Node
 nvm install --lts
@@ -172,7 +169,7 @@ nvm use --lts
 nvm alias default node
 ```
 
-### 8. Install Browser Extensions (Optional)
+### 7. Install Browser Extensions (Optional)
 For vim-like browser navigation, install Vimium:
 - **Chrome/Edge**: [Vimium](https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb)
 - **Firefox**: [Vimium-FF](https://addons.mozilla.org/en-US/firefox/addon/vimium-ff/)

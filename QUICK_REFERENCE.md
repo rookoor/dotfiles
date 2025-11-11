@@ -70,12 +70,11 @@ Shift + Cmd + Alt + R  → Restart yabai
 
 ## Setup Checklist
 
-- [ ] Run `./install.sh` from ~/dotfiles
-- [ ] Start yabai: `brew services start yabai`
-- [ ] Start skhd: `brew services start skhd`
-- [ ] Configure BetterTouchTool (see BETTERTOUCHTOOL_SETUP.md)
-- [ ] Open Karabiner-Elements and grant permissions (Caps ↔ Esc)
-- [ ] Install Vimium browser extension
+- [ ] Run `./install.sh` from ~/dotfiles (one command, goes brr!)
+- [ ] Start yabai: `yabai --start-service`
+- [ ] Start skhd: `skhd --start-service`
+- [ ] Open Karabiner-Elements and grant permissions (all configs pre-loaded!)
+- [ ] Install Vimium browser extension (optional)
 - [ ] Open tmux and press `Ctrl+A I` for plugins
 
 ---

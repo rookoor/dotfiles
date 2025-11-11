@@ -42,8 +42,7 @@ brew "jq"              # JSON processor
 brew "fzf"             # Fuzzy finder
 
 # Casks (GUI Applications)
-cask "bettertouchtool"
-cask "karabiner-elements"             # Keyboard customization (Caps Lock ↔ Escape)
+cask "karabiner-elements"             # Keyboard customization (Caps ↔ Esc, Cmd+HJKL navigation)
 cask "font-jetbrains-mono-nerd-font"  # Good terminal font with icons
 cask "font-fira-code-nerd-font"       # Alternative nerdfont
 
