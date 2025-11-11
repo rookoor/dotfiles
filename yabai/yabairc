@@ -1,0 +1,101 @@
+#!/usr/bin/env sh
+
+# ============================================
+# YABAI CONFIGURATION
+# ============================================
+# Tiling window manager for macOS
+# https://github.com/koekeishiya/yabai
+
+# ============================================
+# GLOBAL SETTINGS
+# ============================================
+
+# Layout mode for new spaces (bsp, stack, float)
+yabai -m config layout bsp
+
+# New window spawns to the right if vertical split, or bottom if horizontal split
+yabai -m config window_placement second_child
+
+# ============================================
+# PADDING AND GAPS
+# ============================================
+
+yabai -m config top_padding    10
+yabai -m config bottom_padding 10
+yabai -m config left_padding   10
+yabai -m config right_padding  10
+yabai -m config window_gap     10
+
+# ============================================
+# MOUSE SETTINGS
+# ============================================
+
+# Center mouse on window with focus
+yabai -m config mouse_follows_focus off
+
+# Move or resize windows with mouse
+yabai -m config mouse_modifier fn
+yabai -m config mouse_action1 move
+yabai -m config mouse_action2 resize
+
+# When window is dropped in center of another window, swap them
+yabai -m config mouse_drop_action swap
+
+# ============================================
+# WINDOW SETTINGS
+# ============================================
+
+# Floating windows are always on top
+yabai -m config window_topmost on
+
+# Window opacity
+yabai -m config window_opacity on
+yabai -m config active_window_opacity 1.0
+yabai -m config normal_window_opacity 0.95
+
+# Window shadows (on, off, float)
+yabai -m config window_shadow float
+
+# Window borders
+yabai -m config window_border on
+yabai -m config window_border_width 4
+yabai -m config active_window_border_color 0xff81a1c1
+yabai -m config normal_window_border_color 0xff3b4252
+
+# ============================================
+# SPLIT RATIO
+# ============================================
+
+yabai -m config split_ratio 0.50
+yabai -m config auto_balance off
+
+# ============================================
+# RULES FOR SPECIFIC APPS
+# ============================================
+
+# Unmanaged apps (will float by default)
+yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --add app="^System Preferences$" manage=off
+yabai -m rule --add app="^Archive Utility$" manage=off
+yabai -m rule --add app="^Finder$" manage=off
+yabai -m rule --add app="^Calculator$" manage=off
+yabai -m rule --add app="^Activity Monitor$" manage=off
+yabai -m rule --add app="^App Store$" manage=off
+yabai -m rule --add app="^Dictionary$" manage=off
+yabai -m rule --add app="^About This Mac$" manage=off
+yabai -m rule --add app="^BetterTouchTool$" manage=off
+
+# Managed apps (ensure they're tiled)
+yabai -m rule --add app="^Alacritty$" manage=on
+yabai -m rule --add app="^iTerm2$" manage=on
+yabai -m rule --add app="^Code$" manage=on
+
+# ============================================
+# SIGNALS
+# ============================================
+
+# Automatically balance windows when one is closed
+# yabai -m signal --add event=window_destroyed action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse"
+# yabai -m signal --add event=application_terminated action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse"
+
+echo "yabai configuration loaded..."

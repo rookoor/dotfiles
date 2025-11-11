@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Local customizations (not to be tracked)
+bash/.bashrc.local
+
+# Backup files
+*.bak
+*~
