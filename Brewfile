@@ -43,6 +43,7 @@ brew "fzf"             # Fuzzy finder
 
 # Casks (GUI Applications)
 cask "karabiner-elements"             # Keyboard customization (Caps ↔ Esc, Cmd+HJKL navigation)
+cask "scroll-reverser"                # Reverse scroll direction for natural scrolling
 cask "font-jetbrains-mono-nerd-font"  # Good terminal font with icons
 cask "font-fira-code-nerd-font"       # Alternative nerdfont
 

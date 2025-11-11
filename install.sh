@@ -186,16 +186,22 @@ fi
 # Configure macOS defaults
 print_info "Configuring macOS preferences..."
 
-# Enable natural scrolling globally (for trackpad)
-defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
+# Configure Scroll Reverser for natural trackpad + traditional mouse scrolling
+if [ -d "/Applications/Scroll Reverser.app" ]; then
+    defaults write com.pilotmoon.scroll-reverser ReverseScrolling -bool true
+    defaults write com.pilotmoon.scroll-reverser ReverseVertical -bool true
+    defaults write com.pilotmoon.scroll-reverser ReverseHorizontal -bool true
+    defaults write com.pilotmoon.scroll-reverser ReverseTrackpad -bool false
+    defaults write com.pilotmoon.scroll-reverser ReverseMouse -bool true
+    defaults write com.pilotmoon.scroll-reverser ReverseTablet -bool false
+    defaults write com.pilotmoon.scroll-reverser StartAtLogin -bool true
 
-# Disable natural scrolling for mice (traditional wheel scrolling)
-defaults write com.apple.driver.AppleHIDMouse com.apple.mouse.natural-scroll -bool false 2>/dev/null
-defaults write com.apple.driver.AppleBluetoothMultitouch.mouse com.apple.mouse.natural-scroll -bool false 2>/dev/null
-defaults write com.apple.AppleMultitouchMouse com.apple.mouse.natural-scroll -bool false 2>/dev/null
-
-print_success "Scrolling configured: Trackpad (natural), Mouse (traditional)"
-print_info "Note: Unplug/replug mouse if needed to apply settings"
+    # Start Scroll Reverser
+    open -a "Scroll Reverser" 2>/dev/null
+    print_success "Scroll Reverser configured (trackpad: natural, mouse: traditional)"
+else
+    print_warning "Scroll Reverser not found - install via Brewfile"
+fi
 
 # Source bash profile
 print_info "Sourcing bash profile..."

@@ -108,11 +108,11 @@ That's it! The script will:
 
 The install script automatically configures these macOS system preferences:
 
-- **Natural Scrolling**: Fully automated via command line!
+- **Scroll Direction**: Fully automated via Scroll Reverser
   - **Trackpad**: Natural scrolling (content tracks finger movement)
   - **Mouse**: Traditional scrolling (wheel down = scroll down)
-  - Settings written to macOS preference files for all mouse types
-  - May require unplugging/replugging mouse to take effect
+  - Scroll Reverser intercepts scroll events at the system level
+  - Auto-starts on login
 
 ## Manual Setup Steps
 
