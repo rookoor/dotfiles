@@ -11,8 +11,12 @@ Escape                 → Caps Lock
 ### 🎯 Core Navigation (System-Wide)
 ```
 Cmd + H/J/K/L          → Arrow keys (←/↓/↑/→)
-Ctrl + Cmd + H/L       → Word navigation (⌥←/⌥→)
-Ctrl + Cmd + J/K       → Paragraph navigation
+```
+
+### 🖥️ Workspace Switching (i3-inspired)
+```
+Ctrl + Cmd + H/L       → Switch workspace (prev/next)
+Ctrl + Cmd + Shift + H/L → Move window to workspace
 ```
 
 ### 🪟 Window Snapping (GNOME-Style)

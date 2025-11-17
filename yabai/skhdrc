@@ -5,8 +5,9 @@
 # https://github.com/koekeishiya/skhd
 #
 # NAVIGATION SCHEME:
-# - Cmd+H/J/K/L → Arrow keys (handled by BetterTouchTool)
-# - Ctrl+Cmd+H/J/K/L → Word navigation (handled by BetterTouchTool)
+# - Cmd+H/J/K/L → Arrow keys (handled by Karabiner-Elements)
+# - Ctrl+Cmd+H/L → Workspace switching (i3-inspired, handled here)
+# - Ctrl+Cmd+Shift+H/L → Move window between workspaces (handled here)
 # - Alt+H/J/K/L → GNOME-style window snapping (handled here)
 
 # ============================================
@@ -160,6 +161,28 @@ ctrl + alt - s : yabai -m space --layout stack
 
 # Ctrl+Alt+D: Float layout (GNOME-like manual positioning)
 ctrl + alt - d : yabai -m space --layout float
+
+# ============================================
+# WORKSPACE SWITCHING (i3-inspired)
+# ============================================
+# Note: Uses Mission Control shortcuts (Ctrl+Arrow) instead of yabai commands
+# because yabai's space focus requires scripting addition (needs SIP disabled)
+
+# Ctrl+Cmd+H: Switch to previous workspace (sends Ctrl+Left)
+ctrl + cmd - h : skhd -k "ctrl - left"
+
+# Ctrl+Cmd+L: Switch to next workspace (sends Ctrl+Right)
+ctrl + cmd - l : skhd -k "ctrl - right"
+
+# Ctrl+Cmd+Shift+H: Move window to previous workspace and follow
+# Note: Requires Mission Control keyboard shortcuts enabled in System Settings
+# System Settings → Keyboard → Keyboard Shortcuts → Mission Control
+# Enable "Move window one space to the left" (default: Ctrl+Shift+Left)
+ctrl + cmd + shift - h : skhd -k "ctrl + shift - left"
+
+# Ctrl+Cmd+Shift+L: Move window to next workspace and follow
+# Enable "Move window one space to the right" (default: Ctrl+Shift+Right)
+ctrl + cmd + shift - l : skhd -k "ctrl + shift - right"
 
 # ============================================
 # APPLICATIONS

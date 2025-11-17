@@ -75,41 +75,6 @@
                 "type": "basic"
               }
             ]
-          },
-          {
-            "description": "Word Navigation: Ctrl+Cmd+H/L to Option+Arrow",
-            "manipulators": [
-              {
-                "from": {
-                  "key_code": "h",
-                  "modifiers": {
-                    "mandatory": ["control", "command"]
-                  }
-                },
-                "to": [
-                  {
-                    "key_code": "left_arrow",
-                    "modifiers": ["option"]
-                  }
-                ],
-                "type": "basic"
-              },
-              {
-                "from": {
-                  "key_code": "l",
-                  "modifiers": {
-                    "mandatory": ["control", "command"]
-                  }
-                },
-                "to": [
-                  {
-                    "key_code": "right_arrow",
-                    "modifiers": ["option"]
-                  }
-                ],
-                "type": "basic"
-              }
-            ]
           }
         ]
       },

@@ -181,7 +181,8 @@ For vim-like browser navigation, install Vimium:
 
 ### Navigation Philosophy
 This setup provides **vim-like navigation everywhere**:
-- **System-wide** (via BetterTouchTool): Cmd+HJKL works in any app
+- **System-wide** (via Karabiner-Elements): Cmd+HJKL works in any app
+- **Workspace switching** (via yabai, i3-inspired): Ctrl+Cmd+H/L to switch workspaces
 - **Window management** (via yabai): Alt+HJKL for GNOME-style snapping
 - **Terminal** (via tmux): Ctrl+A + HJKL for pane navigation
 - **Browser** (via Vimium): J/K for scrolling, H/L for back/forward
@@ -194,10 +195,14 @@ This setup provides **vim-like navigation everywhere**:
 - `Ctrl+a H/J/K/L`: Resize panes
 - `Ctrl+a r`: Reload config
 
-### System-Wide Navigation (BetterTouchTool)
+### System-Wide Navigation (Karabiner-Elements)
 - `Cmd+H/J/K/L`: Arrow keys (←/↓/↑/→)
-- `Ctrl+Cmd+H/L`: Word navigation (jump by word)
-- `Ctrl+Cmd+J/K`: Paragraph navigation
+
+### Workspace Switching (i3-inspired)
+- `Ctrl+Cmd+H`: Switch to previous workspace
+- `Ctrl+Cmd+L`: Switch to next workspace
+- `Ctrl+Cmd+Shift+H`: Move window to previous workspace
+- `Ctrl+Cmd+Shift+L`: Move window to next workspace
 
 ### Window Management (Yabai/Skhd)
 **GNOME-Style Snapping:**
@@ -325,7 +330,7 @@ Feel free to fork this repository and customize it for your own use!
 - [tmux](https://github.com/tmux/tmux)
 - [Neovim](https://neovim.io/)
 - [Alacritty](https://alacritty.org/)
-- [BetterTouchTool](https://folivora.ai/)
+- [Karabiner-Elements](https://karabiner-elements.pqrs.org/)
 
 ## License
 
