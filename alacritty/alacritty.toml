@@ -1,10 +1,10 @@
 # Alacritty Configuration
 # https://alacritty.org/config-alacritty.html
+#
+# macOS Font Smoothing (for crisp text on Retina displays):
+#   defaults write org.alacritty AppleFontSmoothing -int 0
 
 [window]
-# Window dimensions (in pixels)
-# dimensions = { columns = 120, lines = 40 }
-
 # Window padding
 padding = { x = 10, y = 10 }
 
@@ -14,14 +14,14 @@ dynamic_padding = true
 # Window decorations
 decorations = "full"
 
-# Startup mode
-# startup_mode = "Windowed"  # or "Fullscreen", "Maximized"
-
 # Background opacity
 opacity = 0.95
 
 # Allow terminal applications to change Alacritty's window title
 dynamic_title = true
+
+# Use Option as Alt key on macOS
+option_as_alt = "Both"
 
 [scrolling]
 # Maximum number of lines in the scrollback buffer
@@ -31,61 +31,55 @@ history = 10000
 multiplier = 3
 
 [font]
-# Normal font face
-normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
-
-# Bold font face
-bold = { family = "JetBrainsMono Nerd Font", style = "Bold" }
-
-# Italic font face
-italic = { family = "JetBrainsMono Nerd Font", style = "Italic" }
-
-# Bold italic font face
-bold_italic = { family = "JetBrainsMono Nerd Font", style = "Bold Italic" }
+# Normal font face (Menlo is available on all macOS systems)
+normal = { family = "Menlo", style = "Regular" }
 
 # Font size
-size = 14.0
+size = 12.0
 
 # Offset adjusts the space around characters
 offset = { x = 0, y = 1 }
 
+[env]
+TERM = "xterm-256color"
+
 [colors]
-# Default colors
+# Light theme (macOS Terminal style)
 [colors.primary]
-background = "#1e1e1e"
-foreground = "#d4d4d4"
+background = "#ffffff"
+foreground = "#000000"
 
 # Normal colors
 [colors.normal]
 black   = "#000000"
-red     = "#cd3131"
-green   = "#0dbc79"
-yellow  = "#e5e510"
-blue    = "#2472c8"
-magenta = "#bc3fbc"
-cyan    = "#11a8cd"
-white   = "#e5e5e5"
+red     = "#c91b00"
+green   = "#00c200"
+yellow  = "#c7c400"
+blue    = "#0225c7"
+magenta = "#c930c7"
+cyan    = "#00c5c7"
+white   = "#c7c7c7"
 
 # Bright colors
 [colors.bright]
-black   = "#666666"
-red     = "#f14c4c"
-green   = "#23d18b"
-yellow  = "#f5f543"
-blue    = "#3b8eea"
-magenta = "#d670d6"
-cyan    = "#29b8db"
-white   = "#e5e5e5"
+black   = "#686868"
+red     = "#ff6e67"
+green   = "#5ffa68"
+yellow  = "#fffc67"
+blue    = "#6871ff"
+magenta = "#ff77ff"
+cyan    = "#60fdff"
+white   = "#ffffff"
 
 # Cursor colors
 [colors.cursor]
-text = "#1e1e1e"
-cursor = "#d4d4d4"
+text = "#ffffff"
+cursor = "#000000"
 
 # Selection colors
 [colors.selection]
-text = "#1e1e1e"
-background = "#264f78"
+text = "#ffffff"
+background = "#0225c7"
 
 [cursor]
 # Cursor style
@@ -136,10 +130,6 @@ save_to_clipboard = true
 
 # Characters that are used as separators for "semantic words"
 semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"
-
-[terminal]
-# Set TERM variable
-# TERM = "xterm-256color"
 
 [debug]
 # Log level
