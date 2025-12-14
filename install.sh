@@ -37,44 +37,96 @@ print_warning() {
     echo -e "${YELLOW}!${NC} $1"
 }
 
-# Check if running on macOS
-if [[ "$OSTYPE" != "darwin"* ]]; then
-    print_error "This script is designed for macOS only"
-    exit 1
-fi
-
-print_success "Running on macOS"
-
-# Check for Homebrew, install if needed
-print_info "Checking for Homebrew..."
-if ! command -v brew &> /dev/null; then
-    print_warning "Homebrew not found. Installing..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-    # Add Homebrew to PATH for Apple Silicon Macs
-    if [[ $(uname -m) == 'arm64' ]]; then
-        echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.bash_profile
-        eval "$(/opt/homebrew/bin/brew shellenv)"
+# Detect OS
+detect_os() {
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        OS="macos"
+    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        OS="linux"
+        # Detect Linux distro
+        if [ -f /etc/os-release ]; then
+            . /etc/os-release
+            DISTRO=$ID
+        fi
+    else
+        print_error "Unsupported OS: $OSTYPE"
+        exit 1
     fi
-    print_success "Homebrew installed"
-else
-    print_success "Homebrew already installed"
-fi
+}
 
-# Update Homebrew
-print_info "Updating Homebrew..."
-brew update
-print_success "Homebrew updated"
+detect_os
+print_success "Running on $OS"
 
-# Install packages from Brewfile
-print_info "Installing packages from Brewfile..."
-if [ -f "$DOTFILES_DIR/Brewfile" ]; then
-    brew bundle --file="$DOTFILES_DIR/Brewfile"
-    print_success "Packages installed"
-else
-    print_error "Brewfile not found!"
-    exit 1
-fi
+# Package installation
+install_packages() {
+    if [[ "$OS" == "macos" ]]; then
+        # Check for Homebrew, install if needed
+        print_info "Checking for Homebrew..."
+        if ! command -v brew &> /dev/null; then
+            print_warning "Homebrew not found. Installing..."
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+            # Add Homebrew to PATH for Apple Silicon Macs
+            if [[ $(uname -m) == 'arm64' ]]; then
+                echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.bash_profile
+                eval "$(/opt/homebrew/bin/brew shellenv)"
+            fi
+            print_success "Homebrew installed"
+        else
+            print_success "Homebrew already installed"
+        fi
+
+        # Update Homebrew
+        print_info "Updating Homebrew..."
+        brew update
+        print_success "Homebrew updated"
+
+        # Install packages from Brewfile
+        print_info "Installing packages from Brewfile..."
+        if [ -f "$DOTFILES_DIR/Brewfile" ]; then
+            brew bundle --file="$DOTFILES_DIR/Brewfile"
+            print_success "Packages installed"
+        else
+            print_error "Brewfile not found!"
+            exit 1
+        fi
+
+    elif [[ "$OS" == "linux" ]]; then
+        print_info "Installing packages for Linux ($DISTRO)..."
+
+        # Common packages for all distros
+        COMMON_PKGS="git tmux neovim fzf jq htop wget curl"
+        BROWSER_PKGS="qutebrowser"
+
+        case "$DISTRO" in
+            ubuntu|debian|pop)
+                sudo apt update
+                sudo apt install -y $COMMON_PKGS $BROWSER_PKGS python3 python3-pip python3-venv
+                # Install uv
+                curl -LsSf https://astral.sh/uv/install.sh | sh
+                ;;
+            fedora)
+                sudo dnf install -y $COMMON_PKGS $BROWSER_PKGS python3 python3-pip
+                curl -LsSf https://astral.sh/uv/install.sh | sh
+                ;;
+            arch|manjaro)
+                sudo pacman -Syu --noconfirm $COMMON_PKGS $BROWSER_PKGS python python-pip uv
+                ;;
+            *)
+                print_warning "Unknown distro: $DISTRO. Install packages manually."
+                ;;
+        esac
+
+        # Install ghostty on Linux (if available)
+        if ! command -v ghostty &> /dev/null; then
+            print_warning "Ghostty: Install from https://ghostty.org/download"
+        fi
+
+        print_success "Packages installed"
+    fi
+}
+
+install_packages
 
 # Create symlinks for dotfiles
 print_info "Creating symlinks for dotfiles..."
@@ -111,23 +163,37 @@ if [ -f "$DOTFILES_DIR/tmux/.tmux.conf" ]; then
     symlink_file "$DOTFILES_DIR/tmux/.tmux.conf" "$HOME/.tmux.conf"
 fi
 
-# Alacritty
+# Ghostty (replaces Alacritty)
+if [ -f "$DOTFILES_DIR/ghostty/config" ]; then
+    mkdir -p "$HOME/.config/ghostty"
+    symlink_file "$DOTFILES_DIR/ghostty/config" "$HOME/.config/ghostty/config"
+fi
+
+# Qutebrowser
+if [ -f "$DOTFILES_DIR/qutebrowser/config.py" ]; then
+    mkdir -p "$HOME/.config/qutebrowser"
+    symlink_file "$DOTFILES_DIR/qutebrowser/config.py" "$HOME/.config/qutebrowser/config.py"
+fi
+
+# Alacritty (legacy, if still needed)
 if [ -f "$DOTFILES_DIR/alacritty/alacritty.toml" ]; then
     mkdir -p "$HOME/.config/alacritty"
     symlink_file "$DOTFILES_DIR/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
 fi
 
-# Yabai
-if [ -f "$DOTFILES_DIR/yabai/yabairc" ]; then
-    mkdir -p "$HOME/.config/yabai"
-    symlink_file "$DOTFILES_DIR/yabai/yabairc" "$HOME/.config/yabai/yabairc"
-    chmod +x "$HOME/.config/yabai/yabairc"
-fi
+# Yabai (macOS only)
+if [[ "$OS" == "macos" ]]; then
+    if [ -f "$DOTFILES_DIR/yabai/yabairc" ]; then
+        mkdir -p "$HOME/.config/yabai"
+        symlink_file "$DOTFILES_DIR/yabai/yabairc" "$HOME/.config/yabai/yabairc"
+        chmod +x "$HOME/.config/yabai/yabairc"
+    fi
 
-# Skhd
-if [ -f "$DOTFILES_DIR/yabai/skhdrc" ]; then
-    mkdir -p "$HOME/.config/skhd"
-    symlink_file "$DOTFILES_DIR/yabai/skhdrc" "$HOME/.config/skhd/skhdrc"
+    # Skhd
+    if [ -f "$DOTFILES_DIR/yabai/skhdrc" ]; then
+        mkdir -p "$HOME/.config/skhd"
+        symlink_file "$DOTFILES_DIR/yabai/skhdrc" "$HOME/.config/skhd/skhdrc"
+    fi
 fi
 
 # Neovim
@@ -150,10 +216,12 @@ if [ -f "$DOTFILES_DIR/git/.gitignore_global" ]; then
     symlink_file "$DOTFILES_DIR/git/.gitignore_global" "$HOME/.gitignore_global"
 fi
 
-# Karabiner-Elements
-if [ -f "$DOTFILES_DIR/karabiner/karabiner.json" ]; then
-    mkdir -p "$HOME/.config/karabiner"
-    symlink_file "$DOTFILES_DIR/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
+# Karabiner-Elements (macOS only)
+if [[ "$OS" == "macos" ]]; then
+    if [ -f "$DOTFILES_DIR/karabiner/karabiner.json" ]; then
+        mkdir -p "$HOME/.config/karabiner"
+        symlink_file "$DOTFILES_DIR/karabiner/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
+    fi
 fi
 
 print_success "All symlinks created"
@@ -167,12 +235,14 @@ else
     print_success "Bash is already your default shell"
 fi
 
-# Setup yabai and skhd
-print_info "Setting up yabai and skhd..."
-print_warning "Note: yabai requires System Integrity Protection (SIP) to be partially disabled for some features"
-print_info "You can start the services with:"
-echo "  brew services start yabai"
-echo "  brew services start skhd"
+# Setup yabai and skhd (macOS only)
+if [[ "$OS" == "macos" ]]; then
+    print_info "Setting up yabai and skhd..."
+    print_warning "Note: yabai requires System Integrity Protection (SIP) to be partially disabled for some features"
+    print_info "You can start the services with:"
+    echo "  brew services start yabai"
+    echo "  brew services start skhd"
+fi
 
 # Install Tmux Plugin Manager
 print_info "Installing Tmux Plugin Manager (TPM)..."
@@ -183,24 +253,34 @@ else
     print_success "TPM already installed"
 fi
 
-# Configure macOS defaults
-print_info "Configuring macOS preferences..."
+# Configure macOS defaults (macOS only)
+if [[ "$OS" == "macos" ]]; then
+    print_info "Configuring macOS preferences..."
 
-# Configure Scroll Reverser for natural trackpad + traditional mouse scrolling
-if [ -d "/Applications/Scroll Reverser.app" ]; then
-    defaults write com.pilotmoon.scroll-reverser ReverseScrolling -bool true
-    defaults write com.pilotmoon.scroll-reverser ReverseVertical -bool true
-    defaults write com.pilotmoon.scroll-reverser ReverseHorizontal -bool true
-    defaults write com.pilotmoon.scroll-reverser ReverseTrackpad -bool false
-    defaults write com.pilotmoon.scroll-reverser ReverseMouse -bool true
-    defaults write com.pilotmoon.scroll-reverser ReverseTablet -bool false
-    defaults write com.pilotmoon.scroll-reverser StartAtLogin -bool true
+    # Configure Scroll Reverser for natural trackpad + traditional mouse scrolling
+    if [ -d "/Applications/Scroll Reverser.app" ]; then
+        defaults write com.pilotmoon.scroll-reverser ReverseScrolling -bool true
+        defaults write com.pilotmoon.scroll-reverser ReverseVertical -bool true
+        defaults write com.pilotmoon.scroll-reverser ReverseHorizontal -bool true
+        defaults write com.pilotmoon.scroll-reverser ReverseTrackpad -bool false
+        defaults write com.pilotmoon.scroll-reverser ReverseMouse -bool true
+        defaults write com.pilotmoon.scroll-reverser ReverseTablet -bool false
+        defaults write com.pilotmoon.scroll-reverser StartAtLogin -bool true
 
-    # Start Scroll Reverser
-    open -a "Scroll Reverser" 2>/dev/null
-    print_success "Scroll Reverser configured (trackpad: natural, mouse: traditional)"
+        # Start Scroll Reverser
+        open -a "Scroll Reverser" 2>/dev/null
+        print_success "Scroll Reverser configured (trackpad: natural, mouse: traditional)"
+    else
+        print_warning "Scroll Reverser not found - install via Brewfile"
+    fi
+fi
+
+# Setup browser-use (AI-assisted browsing)
+print_info "Setting up browser-use..."
+if [ -f "$DOTFILES_DIR/browser-use/setup.sh" ]; then
+    bash "$DOTFILES_DIR/browser-use/setup.sh"
 else
-    print_warning "Scroll Reverser not found - install via Brewfile"
+    print_warning "browser-use setup script not found"
 fi
 
 # Source bash profile
@@ -216,16 +296,19 @@ echo -e "${GREEN}  Installation Complete!${NC}"
 echo -e "${GREEN}========================================${NC}"
 echo ""
 echo -e "${BLUE}Next steps:${NC}"
-echo "  1. Configure BetterTouchTool (GUI application - manual setup required)"
-echo "  2. Customize git config with your name/email:"
+echo "  1. Customize git config with your name/email:"
 echo "     git config --global user.name \"Your Name\""
 echo "     git config --global user.email \"your.email@example.com\""
-echo "  3. Start yabai and skhd services if you want to use them:"
+echo "  2. Open ghostty and test your setup"
+echo "  3. Open tmux and press prefix + I to install tmux plugins"
+echo "  4. Launch qutebrowser for keyboard-driven browsing"
+echo "  5. Add your ANTHROPIC_API_KEY to ~/.browser-use.env for AI browsing"
+echo "  6. Restart your terminal or run: source ~/.bash_profile"
+if [[ "$OS" == "macos" ]]; then
+echo "  7. Start yabai and skhd (macOS):"
 echo "     brew services start yabai"
 echo "     brew services start skhd"
-echo "  4. Open alacritty and test your setup"
-echo "  5. Open tmux and press prefix + I to install tmux plugins"
-echo "  6. Restart your terminal or run: source ~/.bash_profile"
+fi
 echo ""
 echo -e "${YELLOW}Backup of your old configs:${NC} $backup_dir"
 echo ""

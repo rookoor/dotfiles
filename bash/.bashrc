@@ -88,6 +88,10 @@ alias ta='tmux attach'
 alias tls='tmux ls'
 alias tn='tmux new -s'
 
+# Browsers
+alias qb='qutebrowser'
+alias browse='source ~/.browser-use/bin/activate && python ~/dotfiles/browser-use/browse.py'
+
 # Quick edits
 alias bashrc='nvim ~/.bashrc'
 alias vimrc='nvim ~/.config/nvim/init.lua'

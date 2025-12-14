@@ -2,8 +2,6 @@
 # Usage: brew bundle --file=~/dotfiles/Brewfile
 
 # Taps
-tap "homebrew/cask"
-tap "homebrew/cask-fonts"
 tap "koekeishiya/formulae"
 
 # Core Development Tools
@@ -13,9 +11,12 @@ brew "nvm"
 
 # Terminal & Shell
 brew "tmux"
-brew "alacritty"
 brew "bash"
 brew "bash-completion@2"
+
+# Python (for browser-use and scripts)
+brew "python@3.12"
+brew "uv"                 # Fast Python package manager
 
 # Window Management
 brew "yabai"
@@ -47,12 +48,15 @@ cask "scroll-reverser"                # Reverse scroll direction for natural scr
 cask "font-jetbrains-mono-nerd-font"  # Good terminal font with icons
 cask "font-fira-code-nerd-font"       # Alternative nerdfont
 
+# Browsers
+cask "qutebrowser"                    # Vim-native keyboard-driven browser
+cask "ghostty"                        # GPU-accelerated terminal
+
 # Optional but useful
 # cask "visual-studio-code"
 # cask "docker"
 # cask "iterm2"
 
-# Browser Extensions (Install manually)
-# - Vimium (Chrome/Edge): https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb
-# - Vimium (Firefox): https://addons.mozilla.org/en-US/firefox/addon/vimium-ff/
-# - Vimium (Safari): https://apps.apple.com/us/app/vimari/id1480933944
+# Browser Note: qutebrowser has vim bindings built-in, no extensions needed
+# For fallback browsers (Firefox, etc.), install Tridactyl:
+# - Firefox: https://addons.mozilla.org/en-US/firefox/addon/tridactyl-vim/

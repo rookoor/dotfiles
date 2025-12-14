@@ -1,7 +1,6 @@
 [user]
-	# Set these to your actual values after installation
-	# name = Your Name
-	# email = your.email@example.com
+	name = rookoor
+	email = 62902592+rookoor@users.noreply.github.com
 
 [core]
 	editor = nvim

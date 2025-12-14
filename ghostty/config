@@ -1,0 +1,107 @@
+# Ghostty Configuration
+# Cross-platform: macOS and Linux
+# Ported from alacritty config
+
+# ============================================
+# FONT
+# ============================================
+
+font-family = JetBrainsMono Nerd Font
+font-size = 12
+
+# Fallback if nerd font not installed
+font-family = Menlo
+font-family = monospace
+
+# ============================================
+# WINDOW
+# ============================================
+
+window-padding-x = 10
+window-padding-y = 10
+window-decoration = true
+
+# Slight transparency
+background-opacity = 0.95
+
+# ============================================
+# COLORS (Light theme - matching alacritty)
+# ============================================
+
+background = #ffffff
+foreground = #000000
+
+# Normal colors
+palette = 0=#000000
+palette = 1=#c91b00
+palette = 2=#00c200
+palette = 3=#c7c400
+palette = 4=#0225c7
+palette = 5=#c930c7
+palette = 6=#00c5c7
+palette = 7=#c7c7c7
+
+# Bright colors
+palette = 8=#686868
+palette = 9=#ff6e67
+palette = 10=#5ffa68
+palette = 11=#fffc67
+palette = 12=#6871ff
+palette = 13=#ff77ff
+palette = 14=#60fdff
+palette = 15=#ffffff
+
+# Cursor
+cursor-color = #000000
+
+# Selection
+selection-background = #0225c7
+selection-foreground = #ffffff
+
+# ============================================
+# CURSOR
+# ============================================
+
+cursor-style = block
+cursor-style-blink = true
+
+# ============================================
+# SCROLLBACK
+# ============================================
+
+scrollback-limit = 10000
+
+# ============================================
+# BEHAVIOR
+# ============================================
+
+# Hide mouse when typing
+mouse-hide-while-typing = true
+
+# Copy on select (like selection.save_to_clipboard)
+copy-on-select = clipboard
+
+# Shell integration
+shell-integration = detect
+
+# ============================================
+# macOS SPECIFIC
+# ============================================
+
+# Use Option as Alt (like alacritty option_as_alt)
+macos-option-as-alt = true
+
+# ============================================
+# KEYBINDINGS
+# ============================================
+
+# Font size
+keybind = cmd+plus=increase_font_size:1
+keybind = cmd+minus=decrease_font_size:1
+keybind = cmd+zero=reset_font_size
+
+# Fullscreen
+keybind = ctrl+cmd+f=toggle_fullscreen
+
+# Clear screen
+keybind = cmd+k=clear_screen
