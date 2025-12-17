@@ -141,6 +141,58 @@ TopNotch doesn't use private APIs - it simply **modifies your wallpaper** to add
 
 However, this doesn't change the text color. TopNotch only "works" because in dark mode the text is already white.
 
+### Deep Dive: How Menu Bar Text Color is Determined
+
+After extensive exploration of the dyld shared cache, we found the exact chain of how menu bar text color is computed:
+
+```
+System Appearance (light/dark mode)
+    ↓
++[NSMenu _menuBarIsDark]  ← COMPUTED, READ-ONLY
+    ↓
+HIMenuBarTextAppearance   ← enum value passed to draw functions
+    ↓
+HIMenuBarView::DrawTextTitle()  ← renders black or white text
+    ↓
+Final rendered menu bar
+```
+
+#### Key Functions Discovered
+
+```objc
+// These are GETTERS only - no setters exist
++[NSMenu _menuBarIsDark]
++[NSMenuBarPresentationInstance _isDarkModeEnabled]
+_menuBarIsDark
+__HIMenuIsDark
+```
+
+The `_menuBarIsDark` property is **computed** based on system appearance. There is no injection point to override it.
+
+#### The Drawing Chain
+
+```cpp
+// C++ functions in HIToolbox that draw menu bar text
+HIMenuBarView::DrawTextTitle(MenuData*, CGRect*, CFString*, ..., CGContext*, HIMenuBarTextAppearance, bool)
+HIMenuBarView::DrawIntoWindow(uint*, CGRect, double, CGRect, bool, HIMenuBarTextAppearance, CGContext*)
+HIMenuBarView::DrawOnce(CGRect, CGRect, bool, HIMenuBarTextAppearance, CGContext*)
+```
+
+The `HIMenuBarTextAppearance` enum is passed through the entire drawing chain, but its value is determined internally based on `_menuBarIsDark`.
+
+#### The FlashMenuBar Easter Egg
+
+Interestingly, we found:
+```
+__ZZ12FlashMenuBarE22sEntireMenuBarInverted
+```
+
+This is a static variable used when the screen "flashes" for accessibility alerts. The menu bar CAN be inverted - but only through this accessibility code path, not for normal display.
+
+#### The Fullscreen Exception
+
+When an app enters fullscreen, the menu bar gets special treatment via the `_fsMenuBarAppearance` flag in `SLSTransactionPerMenuBarData`. This gives it the true black appearance with white text. However, this flag is set by the WindowServer based on window state - we cannot set it manually.
+
 ## Conclusions
 
 1. **Text color cannot be changed independently** - it's tied to system light/dark mode
