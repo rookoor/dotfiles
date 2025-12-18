@@ -1,0 +1,22 @@
+# GitHub SSH Multi-Account Configuration
+# ----------------------------------------
+# This config enables automatic SSH key selection based on host alias.
+# Use 'github.com' for rookoor, 'github-jesse' for JesseConstruction.
+#
+# Clone examples:
+#   git clone git@github.com:rookoor/repo.git
+#   git clone git@github-jesse:JesseConstruction/repo.git
+
+# Default GitHub (rookoor)
+Host github.com
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_ed25519
+  IdentitiesOnly yes
+
+# JesseConstruction GitHub
+Host github-jesse
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_ed25519_jesse
+  IdentitiesOnly yes
