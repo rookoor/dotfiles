@@ -1,8 +1,9 @@
 # Trust Bootstrap: ICANN → Handshake
 ## `theclubdelta.com` → `.configfile`
 
-**Version:** 0.2
+**Version:** 0.3
 **Scope:** Define a secure onboarding flow where an ICANN domain is used once to install Handshake DNS + trust config.
+**Updated:** 2025-12-30
 
 ---
 
@@ -117,22 +118,83 @@ bash install.sh
 
 ## 7. DNS Architecture
 
-### Option A — Local Resolver (recommended)
+### Option A — Self-Hosted Resolver (recommended) ✅ DEPLOYED
 
-- Install hnsd
+Run `hnsd` on your own server, accessed via Tailscale.
+
+**Current deployment:**
+- **Server:** Bregalad (Ubuntu 24.04 LTS)
+- **Tailscale IP:** `100.88.83.124`
+- **hnsd version:** 2.99.0
+- **Status:** Running, chain synced
+
+**Server setup (Ubuntu):**
+```bash
+# Install dependencies
+sudo apt update && sudo apt install -y build-essential autoconf libtool libunbound-dev git
+
+# Build hnsd
+git clone https://github.com/handshake-org/hnsd
+cd hnsd && ./autogen.sh && ./configure && make
+sudo make install
+sudo ldconfig
+
+# IMPORTANT: Remove conflicting libuv (breaks dig/bind)
+sudo rm /usr/local/lib/libuv.so*
+sudo ldconfig
+
+# Run as systemd service (bind to Tailscale IP only)
+cat << 'EOF' | sudo tee /etc/systemd/system/hnsd.service
+[Unit]
+Description=Handshake Light Resolver
+After=network.target tailscaled.service
+
+[Service]
+ExecStart=/usr/local/bin/hnsd -r 100.88.83.124:53
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Disable systemd-resolved if using this server for DNS
+sudo systemctl disable --now systemd-resolved
+
+sudo systemctl daemon-reload
+sudo systemctl enable --now hnsd
+```
+
+**Client DNS config:**
+- Point system DNS → `100.88.83.124` (Tailscale IP)
+- No firewall rules needed (Tailscale handles auth)
+- Only accessible from within Tailnet
+
+**Verification:**
+```bash
+dig @100.88.83.124 nb NS +short
+# Should return: ns1.hns.id. ns2.hns.id.
+```
+
+**Pros:** zero trust, always warm, no local RAM usage, secure via Tailscale
+**Cons:** server dependency (but you own it)
+
+### Option B — Local Resolver
+
+- Install hnsd locally
 - Run as daemon
 - Point system DNS → 127.0.0.1
 
-**Pros:** independent
-**Cons:** update/maintenance required
+**Pros:** fully independent
+**Cons:** ~100MB RAM, cold start delay
 
-### Option B — Remote Resolver
+### Option C — Third-Party Resolver
 
-- Configure trusted endpoint (DoT/DoH preferred)
+- Configure trusted endpoint (hdns.io, NextDNS w/ HNS)
 - System DNS points to resolver
 
-**Pros:** simple
-**Cons:** central dependency
+**Pros:** simple, no maintenance
+**Cons:** trust third party
 
 ---
 
@@ -218,9 +280,48 @@ Bootstrap domain credentials must use hardware-backed MFA.
 |-----|-------|
 | Bootstrap Domain | theclubdelta.com |
 | Sovereign Root | .configfile |
-| Resolver | TBD |
-| VPN | optional |
+| Resolver Server | Bregalad (`100.88.83.124`) |
+| Resolver Software | hnsd 2.99.0 |
+| VPN | Tailscale |
 | CA | optional |
+
+---
+
+## 15. Progress & Next Steps
+
+### Completed ✅
+- [x] hnsd resolver deployed on Bregalad
+- [x] Systemd service configured and running
+- [x] Chain synced, resolving HNS names (verified with `nb` TLD)
+- [x] Accessible via Tailscale at `100.88.83.124:53`
+
+### Next Steps 🔜
+1. **Register `.configfile` TLD on Handshake**
+   - Use Namebase, Bob Wallet, or Shakedex
+   - Estimated cost: ~5-50 HNS depending on auction
+   - Set up DNS records after registration
+
+2. **Configure DNS records for `.configfile`**
+   - Point NS records to authoritative nameserver
+   - Options: self-host with `hsd`, use hns.id, or Route53
+
+3. **Set up `theclubdelta.com` for bootstrap**
+   - Configure web server for installer delivery
+   - Write `install.sh` script
+   - Generate SHA256 checksums
+   - Set up HTTPS
+
+4. **Write client installer (`install.sh`)**
+   - Detect OS (macOS/Linux)
+   - Configure DNS to point to `100.88.83.124`
+   - Verify HNS resolution works
+   - Optional: Tailscale enrollment
+
+5. **Test end-to-end bootstrap flow**
+   - Fresh device → theclubdelta.com → install.sh → .configfile works
+
+### Blocked/Waiting ⏳
+- `.configfile` TLD availability (need to check/bid on Handshake)
 
 ---
 
